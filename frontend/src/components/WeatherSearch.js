@@ -11,7 +11,9 @@ function WeatherSearch({ onWeatherFetched }) {
 
     try {
       // ✅ API call to backend
-      const response = await axios.get(`http://localhost:5000/api/weather?city=${city}`);
+      const response = await axios.get(
+      `https://weather-health-monitoring-system.onrender.com/api/weather?city=${city}`
+     );
       console.log("Backend response:", response.data);
       const data = response.data;
 
