@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import WeatherChart from "../components/WeatherChart";
 import WeatherSearch from "../components/WeatherSearch";
 import HealthTips from "../components/HealthTips";
 import HealthAlerts from "../components/HealthAlerts";
@@ -48,7 +49,7 @@ const Dashboard = ({ user, onLogout }) => {
         </div>
 
         {/* RIGHT SIDE: Personalized Tips */}
-        <div>
+        <div className="flex flex-col space-y-4">
           {weatherData ? (
             <HealthTips weather={weatherData} />
           ) : (
@@ -56,6 +57,8 @@ const Dashboard = ({ user, onLogout }) => {
               ⛅ Enter a city to get personalized health tips
             </div>
           )}
+          {/* Weather Trend Chart - New Addition */}
+<WeatherChart weatherData={weatherData} />
         </div>
       </div>
     </div>
