@@ -16,7 +16,7 @@ const WeatherChart = ({ weatherData }) => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 w-full">
       <h2 className="text-lg font-semibold mb-4 text-blue-700 dark:text-blue-300">
-        📈 Last 7 Days Weather Trend
+        📈 My 7 Days Weather Trend
       </h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={chartData}>
