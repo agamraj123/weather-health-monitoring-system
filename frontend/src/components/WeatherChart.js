@@ -1,36 +1,56 @@
 import React from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
-const WeatherChart = ({ weatherData }) => {
-  // Mock data for last 7 days (baad mein real data se replace kar sakte hain)
-  const chartData = [
-    { day: "Mon", temp: 28, humidity: 65 },
-    { day: "Tue", temp: 31, humidity: 70 },
-    { day: "Wed", temp: 29, humidity: 55 },
-    { day: "Thu", temp: 34, humidity: 80 },
-    { day: "Fri", temp: 32, humidity: 60 },
-    { day: "Sat", temp: 27, humidity: 45 },
-    { day: "Sun", temp: 30, humidity: 68 },
-  ];
+const HealthAlerts = ({ weather, user }) => {
+  if (!weather || !user) return null;
+
+  const { temp, humidity } = weather.main;
+  const alerts = [];
+
+  // Temperature alerts
+  if (temp > 35)
+    alerts.push("⚠️ Heatwave risk — stay hydrated and avoid going out at noon!");
+
+  if (temp < 10)
+    alerts.push("❄️ Cold weather — wear warm clothes and stay inside if possible.");
+
+  // Humidity alerts
+  if (humidity > 80)
+    alerts.push("🌫️ Humidity high — may cause discomfort or fatigue!");
+
+  if (humidity < 30)
+    alerts.push("💧 Air is dry — drink more water and use moisturizer.");
+
+  // Personalized alerts based on user health condition
+  if (user.condition === "asthma" && humidity > 70)
+    alerts.push("🤧 High humidity may trigger asthma — keep inhaler nearby!");
+
+  if (user.condition === "heart" && temp > 32)
+    alerts.push("❤️ Heat stress can affect heart — avoid outdoor exertion!");
+
+  if (user.condition === "diabetes" && temp < 15)
+    alerts.push("🍭 Cold weather can affect sugar levels — monitor closely!");
+
+  if (user.condition === "none")
+    alerts.push("✅ You’re healthy! Just follow general precautions.");
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-5 w-full">
-      <h2 className="text-lg font-semibold mb-4 text-blue-700 dark:text-blue-300">
-        📈 My 7 Days Weather Trend
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-4 text-gray-700 dark:text-gray-200">
+      <h2 className="text-lg font-semibold mb-2 text-red-600 dark:text-red-400">
+        ⚠️ Health Alerts for {user.name}
       </h2>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="temp" stroke="#3b82f6" strokeWidth={3} name="Temperature (°C)" />
-          <Line type="monotone" dataKey="humidity" stroke="#10b981" strokeWidth={3} name="Humidity (%)" />
-        </LineChart>
-      </ResponsiveContainer>
+      {alerts.length > 0 ? (
+        <ul className="list-disc pl-5 space-y-1">
+          {alerts.map((a, i) => (
+            <li key={i}>{a}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-green-600 dark:text-green-400 font-medium">
+          ✅ No major health risks today!
+        </p>
+      )}
     </div>
   );
 };
 
-export default WeatherChart;
+export default HealthAlerts;
