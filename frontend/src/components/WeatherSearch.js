@@ -10,20 +10,21 @@ function WeatherSearch({ onWeatherFetched }) {
     if (!city) return window.alert("Please enter a city!");
 
     try {
-      // ✅ API call to backend
       const response = await axios.get(
-      `https://weather-health-monitoring-system.onrender.com/api/weather?city=${city}`
-     );
-      console.log("Backend response:", response.data);
+        `https://weather-health-monitoring-system.onrender.com/api/weather?city=${city}`
+      );
+
       const data = response.data;
 
-      // ✅ Update local state
+      // Update local state
       setWeather(data);
 
-      // ✅ Send data to parent (App.js)
-      if (onWeatherFetched) onWeatherFetched(data);
+      // Send data to parent (Dashboard) for Search History
+      if (onWeatherFetched) {
+        onWeatherFetched(data);
+      }
 
-      // ✅ Health Alert Logic
+      // Health Alert Logic
       let message = "";
       if (data.main.temp > 35) {
         message = "☀️ High temperature! Stay hydrated and avoid direct sunlight.";
